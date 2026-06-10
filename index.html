@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium 2x6 horizontal sliding block image puzzle with a true empty slot.">
+    <title>Horizontal Sliding Puzzle</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="app-title">Sliding Puzzle</h1>
+        </header>
+
+        <main class="game-container">
+            <!-- Puzzle Board Wrapper -->
+            <div class="board-wrapper">
+                <!-- Puzzle Board Container -->
+                <div id="puzzle-board" class="puzzle-board">
+                    <!-- Slices and empty space are dynamically rendered here -->
+                </div>
+
+                <!-- Win Overlay Screen -->
+                <div id="win-overlay" class="win-overlay hidden">
+                    <div class="win-content">
+                        <h2 class="win-title">You Win!</h2>
+                        <p class="win-stats">Completed in <span id="final-moves">0</span> moves and <span id="final-time">00:00</span></p>
+                        <p id="new-record-msg" class="new-record-msg hidden">🏆 New Best Score! 🏆</p>
+                        <button id="restart-btn" class="restart-btn">Play Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Stats & Buttons -->
+            <div class="controls-container">
+                <button id="shuffle-btn" class="shuffle-btn">Shuffle Board</button>
+                <button id="reset-game-btn" class="shuffle-btn">Restart</button>
+                <div class="stats-badge" id="moves-badge">
+                    <span class="stats-label">Moves:</span>
+                    <span id="moves-count" class="stats-value">0</span>
+                    <span class="stats-best">(Best: <span id="best-moves">-</span>)</span>
+                </div>
+                <div class="stats-badge" id="timer-badge">
+                    <span class="stats-label">Time:</span>
+                    <span id="timer-val" class="stats-value">00:00</span>
+                    <span class="stats-best">(Best: <span id="best-time">-</span>)</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script Entry -->
+    <script src="script.js"></script>
+</body>
+</html>

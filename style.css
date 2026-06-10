@@ -1,0 +1,349 @@
+/* Design Tokens & Custom Variables */
+:root {
+    --bg-gradient: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 100%);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.07);
+    --cell-bg: rgba(0, 0, 0, 0.25);
+    
+    /* Warm Brown/Golden Wood Theme */
+    --tray-bg: linear-gradient(135deg, #451a03 0%, #170701 100%);
+    --tray-border: #92400e;
+    --tray-glow: rgba(245, 158, 11, 0.1);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-accent: #f59e0b; /* Golden Yellow accent */
+    --glow-color: rgba(245, 158, 11, 0.2);
+    --transition-speed: 0.22s;
+    --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Rectangular Proportions matching physical sliding puzzle aspect ratio */
+    --tile-width: 76px;
+    --tile-height: 95px;
+    --tile-gap: 8px;
+}
+
+/* Global Resets */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+/* Main Container Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem 1rem;
+    margin: 0 auto;
+}
+
+/* Header Styling */
+.app-header {
+    text-align: center;
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, #f8fafc 30%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+/* Game Board Container */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Puzzle Board Wrapper */
+.board-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--tray-bg);
+    border: 4px solid var(--tray-border);
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.65), 
+        inset 0 4px 12px rgba(0, 0, 0, 0.6),
+        0 0 30px var(--tray-glow);
+}
+
+.puzzle-board {
+    position: relative;
+    /* Explicit dimensions to contain absolute-positioned 2x6 tiles + gaps + padding */
+    width: calc(6 * var(--tile-width) + 5 * var(--tile-gap) + 20px);
+    height: calc(2 * var(--tile-height) + 1 * var(--tile-gap) + 20px);
+    padding: 10px;
+    background: var(--cell-bg);
+}
+
+/* Puzzle Tile Styling - Independent Absolute Movable Objects */
+.puzzle-tile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--tile-width);
+    height: var(--tile-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-repeat: no-repeat;
+    box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    /* Smooth sliding transitions using hardware-accelerated transforms */
+    transition: transform var(--transition-speed) cubic-bezier(0.25, 1, 0.5, 1);
+    user-select: none;
+    cursor: pointer;
+    background-clip: padding-box;
+    z-index: 2;
+}
+
+.puzzle-tile:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 
+        0 0 15px rgba(245, 158, 11, 0.3),
+        0 6px 16px rgba(0, 0, 0, 0.45);
+    transform: scale(1.02); /* Slight lift on hover */
+    z-index: 3;
+}
+
+/* Controls Container */
+.controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* Stats Badge Styling */
+.stats-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.stats-value {
+    font-size: 1.1rem;
+    color: var(--text-accent);
+    font-weight: 700;
+    min-width: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.stats-best {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    margin-left: 0.2rem;
+}
+
+.stats-best span {
+    font-weight: 600;
+}
+
+/* Win Overlay */
+.win-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.win-overlay.hidden {
+    display: none !important;
+}
+
+.win-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.win-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.win-stats {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.2rem;
+}
+
+.win-stats span {
+    color: var(--text-accent);
+    font-weight: 700;
+}
+
+.new-record-msg {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f59e0b;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    animation: bounce 0.8s infinite alternate;
+}
+
+.new-record-msg.hidden {
+    display: none !important;
+}
+
+/* Control Buttons */
+.shuffle-btn {
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.65rem 1.8rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.shuffle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--text-accent);
+    box-shadow: 0 0 15px var(--glow-color),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.shuffle-btn:active {
+    transform: scale(0.97);
+}
+
+.restart-btn {
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.55rem 1.5rem;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
+    filter: brightness(1.1);
+}
+
+.restart-btn:active {
+    transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-4px); }
+}
+
+/* Responsive Sizing for smaller mobile displays */
+@media (max-width: 560px) {
+    :root {
+        --tile-width: 50px;
+        --tile-height: 62.5px;
+        --tile-gap: 4px;
+    }
+    
+    .app-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .controls-container {
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    :root {
+        --tile-width: 44px;
+        --tile-height: 55px;
+        --tile-gap: 3px;
+    }
+}
